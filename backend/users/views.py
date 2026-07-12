@@ -71,7 +71,6 @@ class MeView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        DeletedUserEmail.objects.create(email=user.email)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
