@@ -1,7 +1,7 @@
 [project]
 name = "backend"
 version = "0.1.0"
-description = "Add your description here"
+description = "An online chat web app built with django and next.js"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -15,7 +15,4 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
-    "black>=26.5.1",
-    "django-extensions>=4.1",
-]
+dev = ["black>=26.5.1", "django-extensions>=4.1", "flake8>=7.3.0"]
