@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
+from PIL import Image
 
 FORBIDDEN_USERNAMES = [
     "signup",
@@ -225,6 +226,22 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s profile"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if not self.avatar:
+            return
+
+        try:
+            avatar = Image.open(self.avatar.path)
+        except (ValueError, FileNotFoundError, OSError):
+            return
+
+        if avatar.height > 400 or avatar.width > 400:
+            output_size = (400, 400)
+            avatar.thumbnail(output_size)
+            avatar.save(self.avatar.path)
 
 
 class Follow(models.Model):
