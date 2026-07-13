@@ -17,13 +17,12 @@ from users.models import (
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = "__all__"
-
+        fields = ["id", "avatar", "birth_date", "bio"]
 
 class UserSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSettings
-        fields = "__all__"
+        fields =  ["id", "theme"]
 
 
 class UserSerializer(serializers.ModelSerializer):

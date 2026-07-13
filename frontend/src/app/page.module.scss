@@ -1,0 +1,25 @@
+.logo {
+  font-size: 2.5rem;
+  margin: 1rem;
+}
+
+.container {
+  display: flex;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.typewriter {
+  display: inline-block;
+  background: linear-gradient(90deg, black, grey);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-size: 2rem;
+  font-weight: 600;
+}
