@@ -57,3 +57,5 @@ export const allowedEmailDomains = [
   "seznam.cz",
   "mail.ru",
 ];
+
+export const typewriterStrings = ["Private Chats", "Group Chats", "Anonymous Conversations With Filters", "Rooms"];

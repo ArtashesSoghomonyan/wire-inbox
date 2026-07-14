@@ -1,0 +1,36 @@
+@use "../../app/_variables.scss" as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $size-4;
+  width: 350px;
+  height: 550px;
+  margin: 0 auto;
+  text-align: center;
+
+  &>* {
+    width: 100%;
+    margin-top: $size-2;
+  }
+
+  :global(.input) {
+    width: 100%;
+  }
+}
+
+.showPassword {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.showPassword input[type="checkbox"] {
+  margin: 0;
+}
+
+.showPassword span {
+  font-size: 0.875rem;
+  color: var(--color-10)
+}

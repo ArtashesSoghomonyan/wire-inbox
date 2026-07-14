@@ -22,3 +22,267 @@ body {
   padding: 0;
   margin: 0;
 }
+
+// Spacing
+$size-0: 4px;
+$size-1: 8px;
+$size-2: 12px;
+$size-3: 16px;
+$size-4: 20px;
+$size-5: 28px;
+$size-6: 40px;
+$size-7: 60px;
+$size-8: 100px;
+$size-9: 160px;
+$size-10: 240px;
+
+// Colors
+$primary-10: hsl(230, 70%, 10%);
+$primary-20: hsl(230, 70%, 20%);
+$primary-30: hsl(230, 70%, 30%);
+$primary-40: hsl(230, 70%, 40%);
+$primary-50: hsl(230, 70%, 50%);
+$primary-60: hsl(230, 70%, 60%);
+$primary-70: hsl(230, 70%, 70%);
+$primary-80: hsl(230, 70%, 80%);
+$primary-90: hsl(230, 70%, 90%);
+$primary-100: hsl(230, 70%, 100%);
+
+$secondary-10: hsl(60, 50%, 10%);
+$secondary-20: hsl(60, 50%, 20%);
+$secondary-30: hsl(60, 50%, 30%);
+$secondary-40: hsl(60, 50%, 40%);
+$secondary-50: hsl(60, 50%, 50%);
+$secondary-60: hsl(60, 50%, 60%);
+$secondary-70: hsl(60, 50%, 70%);
+$secondary-80: hsl(60, 50%, 80%);
+$secondary-90: hsl(60, 50%, 90%);
+$secondary-100: hsl(60, 50%, 100%);
+
+// Manual override: dark
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-1: #{hsl(0, 0%, 10%)};
+  --color-2: #{hsl(0, 0%, 20%)};
+  --color-3: #{hsl(0, 0%, 30%)};
+  --color-4: #{hsl(0, 0%, 40%)};
+  --color-5: #{hsl(0, 0%, 50%)};
+  --color-6: #{hsl(0, 0%, 60%)};
+  --color-7: #{hsl(0, 0%, 70%)};
+  --color-8: #{hsl(0, 0%, 80%)};
+  --color-9: #{hsl(0, 0%, 90%)};
+  --color-10: #{hsl(0, 0%, 100%)};
+}
+
+// Manual override: light
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-1: #{hsl(0, 0%, 100%)};
+  --color-2: #{hsl(0, 0%, 90%)};
+  --color-3: #{hsl(0, 0%, 80%)};
+  --color-4: #{hsl(0, 0%, 70%)};
+  --color-5: #{hsl(0, 0%, 60%)};
+  --color-6: #{hsl(0, 0%, 50%)};
+  --color-7: #{hsl(0, 0%, 40%)};
+  --color-8: #{hsl(0, 0%, 30%)};
+  --color-9: #{hsl(0, 0%, 20%)};
+  --color-10: #{hsl(0, 0%, 10%)};
+}
+
+// UI components
+
+// Buttons
+
+@mixin btn {
+  font-weight: 500;
+  color: white;
+  padding-inline: $size-3;
+  padding-block: $size-1;
+  margin: $size-1;
+  border: none;
+  border-radius: $size-1;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.primary-btn {
+  @include btn;
+  background-color: $primary-50;
+
+  &:hover {
+    background-color: $primary-60;
+  }
+}
+
+.secondary-btn {
+  @include btn;
+  color: var(--color-10);
+  border: 1px solid var(--color-2);
+
+  &:hover {
+    background-color: var(--color-1);
+  }
+}
+
+.soft-btn {
+  @include btn;
+  background-color: $primary-90;
+  color: $primary-20;
+
+  &:hover {
+    background-color: $primary-80;
+  }
+}
+
+.round-btn {
+  border-radius: $size-4;
+}
+
+.circle-btn {
+  color: white;
+  border: none;
+  background-color: $primary-50;
+  font-size: $size-3;
+  font-weight: 500;
+  width: $size-5;
+  height: $size-5;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $primary-60;
+  }
+}
+
+// Button groups
+
+.btn-group {
+  display: inline-flex;
+  margin: $size-1;
+
+  >* {
+    padding: $size-1 $size-2;
+    border: 1px solid var(--color-2);
+    background: var(--color-1);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  >*:first-child {
+    border-radius: $size-1 0 0 $size-1;
+  }
+
+  >*:last-child {
+    border-radius: 0 $size-1 $size-1 0;
+  }
+
+  >*:only-child {
+    border-radius: $size-1;
+  }
+
+  >*:hover {
+    background: var(--color-2);
+  }
+
+  .active {
+    background: var(--color-3);
+    background-color: var(--theme);
+  }
+
+  .active:hover {
+    background: var(--color-2);
+  }
+}
+
+// Input
+
+.input {
+  font-family: inherit;
+  margin: $size-1;
+  width: $size-10;
+  padding: $size-1;
+  border: 1px solid var(--color-2);
+  border-radius: $size-1;
+
+  &:focus {
+    border: 1px solid $primary-50;
+    outline: 1px solid $primary-50;
+  }
+}
+
+.input.password {
+  padding-right: 3rem;
+}
+
+.error-text {
+  font-size: 12px;
+  color: red;
+}
+
+.error-input {
+  border: 1px solid red;
+  color: brown;
+
+  &::placeholder {
+    color: brown;
+  }
+
+  &:focus {
+    border: 1px solid red;
+    outline: 1px solid red;
+  }
+}
+
+// Textarea
+
+textarea {
+  resize: none;
+  padding: $size-2;
+  width: 100%;
+  height: $size-10;
+  font-family: inherit;
+}
+
+
+// Date
+
+// TODO: Create a custom date picker later
+
+// Dropdown
+
+/* Select */
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: $size-9;
+  padding-inline: $size-2;
+  padding-block: $size-1;
+  background: var(--color-2);
+  border-radius: $size-2;
+  cursor: pointer;
+  outline: none;
+}
+
+select:hover {
+  border-color: $primary-70;
+}
+
+select:focus {
+  border-color: $primary-70;
+}
+
+/* Disabled */
+
+select:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
