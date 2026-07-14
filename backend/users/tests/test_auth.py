@@ -72,3 +72,25 @@ class AuthTests(APITestCase):
     def test_me_fail(self):
         response_me = self.client.get(reverse("users:me"))
         self.assertEqual(response_me.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_verify_account_success(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(
+            reverse("users:verify-account"),
+            {"code": self.user.email_verification.code},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.is_verified)
+
+    def test_verify_account_wrong_code(self):
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(
+            reverse("users:verify-account"),
+            {"code": "000000"},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.is_verified)

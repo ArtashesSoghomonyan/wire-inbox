@@ -16,5 +16,6 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
     path("search/", views.UserSearchView.as_view(), name="search_user"),
     path("settings/", views.UserSettingsView.as_view(), name="settings"),
+    path("verify-account/", views.VerifyAccount.as_view(), name="verify-account"),
     path("<slug:username>/", views.UserView.as_view(), name="user"),
 ]

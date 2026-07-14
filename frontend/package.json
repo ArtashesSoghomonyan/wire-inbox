@@ -14,6 +14,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-icons": "^5.7.0",
+    "react-otp-input": "^3.1.1",
     "sass": "^1.101.0",
     "typewriter-effect": "^2.22.0"
   },

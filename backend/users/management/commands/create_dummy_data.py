@@ -55,6 +55,7 @@ class Command(BaseCommand):
 
             if created:
                 user.set_password(user_data["password"])
+                user.is_verified = True
                 user.save()
                 self.stdout.write(self.style.SUCCESS(f"Created user {user.email}"))
             else:

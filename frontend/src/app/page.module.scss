@@ -1,3 +1,5 @@
+@use "./_variables.scss" as *;
+
 .logo {
   font-size: 2.5rem;
   margin: 1rem;
@@ -56,4 +58,20 @@
   color: transparent;
   font-size: 2rem;
   font-weight: 600;
+}
+
+.verification {
+  display: flex;
+  gap: $size-2;
+
+  >* {
+    width: 56px;
+    height: 64px;
+    font-size: $size-4;
+    font-weight: 600;
+    text-align: center;
+    border-radius: $size-2;
+    border: 2px solid var(--color-5);
+    transition: 0.2s;
+  }
 }

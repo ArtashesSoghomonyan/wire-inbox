@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
+from django.utils import timezone
 from PIL import Image
 
 FORBIDDEN_USERNAMES = [
@@ -251,3 +252,24 @@ class Follow(models.Model):
 
     class Meta:
         unique_together = ("user_from", "user_to")
+
+
+class EmailVerification(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="email_verification",
+    )
+
+    code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    @property
+    def expired(self):
+        return timezone.now() > self.expires_at

@@ -8,8 +8,15 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from users.models import DeletedUserEmail, Follow, Profile, User, UserSettings
-from users.permissions import IsAnonymous
+from users.models import (
+    DeletedUserEmail,
+    EmailVerification,
+    Follow,
+    Profile,
+    User,
+    UserSettings,
+)
+from users.permissions import IsAnonymous, IsVerified
 from users.serializers import (
     EmailTokenObtainPairSerializer,
     FollowSerializer,
@@ -95,7 +102,7 @@ class RegisterView(APIView):
 
 
 class ProfileUpdateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def patch(self, request):
@@ -134,7 +141,7 @@ class CheckEmailView(APIView):
 
 
 class FollowView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def post(self, request, username):
         """Follow a user"""
@@ -179,7 +186,7 @@ class FollowView(APIView):
 
 
 class UserSearchView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     queryset = User.objects.all()
     serializer_class = SearchUserSerializer
@@ -199,7 +206,7 @@ class UserSettingsView(APIView):
 
 
 class ChangePasswordView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def put(self, request):
         user = request.user
@@ -223,5 +230,53 @@ class ChangePasswordView(APIView):
 
         return Response(
             {"detail": "Password changed successfully."},
+            status=status.HTTP_200_OK,
+        )
+
+
+class VerifyAccount(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        code = request.data.get("code")
+
+        if not code:
+            return Response(
+                {"detail": "Verification code is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if user.is_verified:
+            return Response(
+                {"detail": "Your account is already verified."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        verification = EmailVerification.objects.filter(user=user).first()
+        if not verification:
+            return Response(
+                {"detail": "No verification record found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if verification.expired:
+            return Response(
+                {"detail": "Verification code has expired."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if code != verification.code:
+            return Response(
+                {"detail": "Invalid verification code."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user.is_verified = True
+        user.save(update_fields=["is_verified"])
+        verification.delete()
+
+        return Response(
+            {"detail": "Account has been verified successfully."},
             status=status.HTTP_200_OK,
         )
